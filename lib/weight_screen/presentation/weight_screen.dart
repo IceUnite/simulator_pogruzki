@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simulator_pogruzki/razgruz_screen/presentation/razgruz_screen.dart';
+import 'package:simulator_pogruzki/global_variables/global_variables.dart'
+as globals;
 
 class WeightScreen extends StatefulWidget {
   WeightScreen({Key? key}) : super(key: key);
@@ -9,7 +11,6 @@ class WeightScreen extends StatefulWidget {
 }
 
 bool isTrue = false;
-
 class _WeightScreenState extends State<WeightScreen> {
   @override
   Widget build(BuildContext context) {
@@ -49,13 +50,20 @@ class _WeightScreenState extends State<WeightScreen> {
                 SizedBox(
                   width: 240,
                   height: 50,
-                  child: ElevatedButton(
+                  child:  ElevatedButton(
+                      style: globals.weight == null
+                          ? ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.grey))
+                          : null,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RazgruzScreen()),
-                        );
+                        if (globals.weight != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RazgruzScreen()),
+                          );
+                        }
                       },
                       child: const Text('Разгрузить сырье')),
                 ),
@@ -99,7 +107,7 @@ class _WeightScreenState extends State<WeightScreen> {
                             decoration: BoxDecoration(
                                 color: const Color(0xFF336BD7),
                                 borderRadius: BorderRadius.circular(4)),
-                            child: const Center(
+                            child:  Center(
                                 child: Text(
                               '1000 грамм',
                               style:
@@ -113,7 +121,9 @@ class _WeightScreenState extends State<WeightScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (weight < 1000) {
+
+                              globals.weight = 500;
+                              if (globals.weight < 1000) {
                                 isTrue = true;
                               } else {
                                 isTrue = false;
@@ -141,7 +151,7 @@ class _WeightScreenState extends State<WeightScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '${weight}',
+                            '${globals.weight} ',
                             style: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 70,

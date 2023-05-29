@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simulator_pogruzki/weight_screen/presentation/weight_screen.dart';
+import 'package:simulator_pogruzki/global_variables/global_variables.dart'
+as globals;
 
 enum Bort { backBort, leftBort }
 
@@ -55,12 +57,19 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                   width: 240,
                   height: 50,
                   child: ElevatedButton(
+                      style: globals.weight == null
+                          ? ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.grey))
+                          : null,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RazgruzScreen()),
-                        );
+                        if (globals.weight != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RazgruzScreen()),
+                          );
+                        }
                       },
                       child: const Text('Разгрузить сырье')),
                 ),
