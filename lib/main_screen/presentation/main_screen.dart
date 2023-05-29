@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simulator_pogruzki/razgruz_screen/presentation/razgruz_screen.dart';
 import 'package:simulator_pogruzki/weight_screen/presentation/weight_screen.dart';
 import 'package:simulator_pogruzki/global_variables/global_variables.dart'
@@ -34,7 +36,7 @@ class MainScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => WeightScreen()),
+                                builder: (context) => const WeightScreen()),
                           );
                         },
                         child: const Text('Измерить вес'))),
@@ -49,14 +51,24 @@ class MainScreen extends StatelessWidget {
                           ? ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.grey))
-                          : null,
+                          : globals.weight > 800
+                              ? ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.grey))
+                              : null,
                       onPressed: () {
-                        if (globals.weight != null) {
+                        if (globals.weight != null && globals.weight < 3000) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const RazgruzScreen()),
                           );
+                          QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.warning,
+                              onConfirmBtnTap: () {
+                                Navigator.pop(context);
+                              });
                         }
                       },
                       child: const Text('Разгрузить сырье')),
@@ -79,14 +91,14 @@ class MainScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
-                Text(
+                const Text(
                   'Добро пожаловать в систему разгрузки',
                   style: TextStyle(color: Colors.white, fontSize: 40),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Image.asset(
@@ -94,14 +106,14 @@ class MainScreen extends StatelessWidget {
                   width: 600,
                   height: 356,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 108,
                 ),
-                Text(
+                const Text(
                   'Данное приложение позволяет быстро и удобно произвести разгрузку автомобиля различными способами',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-                Text(
+                const Text(
                   'По работе с программой можно ознакомиться здесь',
                   style: TextStyle(
                       color: Color(

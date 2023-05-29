@@ -5,7 +5,7 @@ import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:simulator_pogruzki/main_screen/presentation/main_screen.dart';
 import 'package:simulator_pogruzki/global_variables/global_variables.dart'
-as globals;
+    as globals;
 
 class ConnectionScreen extends StatefulWidget {
   ConnectionScreen({Key? key}) : super(key: key);
@@ -18,6 +18,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   String _windowSize = 'Unknown';
   var availablePorts = [];
 
+  @override
   void initState() {
     super.initState();
     initPorts();
@@ -27,8 +28,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   void initPorts() {
     setState(() {
       globals.ports = SerialPort.availablePorts;
-    }
-    );
+    });
   }
 
   State<ConnectionScreen> createState() => _ConnectionScreenState();
@@ -41,7 +41,6 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
   @override
   Widget build(BuildContext context) {
     testWindowFunctions();
-    // showAlertDialog(context);
     return Scaffold(
       backgroundColor: const Color(0xFF002863),
       body: Column(
@@ -56,14 +55,17 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
             ),
           ),
           const Expanded(child: SizedBox()),
-          Text("Выберете порт для подключения",
-            style: TextStyle(color: Colors.white, fontSize: 40),),
-          SizedBox(height: 20,),
+          Text(
+            "Выберете порт для подключения",
+            style: TextStyle(color: Colors.white, fontSize: 40),
+          ),
+          SizedBox(
+            height: 20,
+          ),
           Container(
             height: 250,
             width: 400,
             child: SingleChildScrollView(
-
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: globals.ports!.length,
@@ -76,12 +78,13 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                         if (!SerialPort(globals.portName).openReadWrite()) {
                           print(SerialPort.lastError);
                         }
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const MainScreen()),
-                        // );
-                        // print(globals.portName);
+                        globals.reader = SerialPortReader(SerialPort(globals.portName));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MainScreen()),
+                        );
+                        print(globals.portName);
                       },
                       child: Text(
                         globals.ports![index].toString(),

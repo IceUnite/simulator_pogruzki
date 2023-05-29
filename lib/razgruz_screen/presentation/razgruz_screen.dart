@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simulator_pogruzki/weight_screen/presentation/weight_screen.dart';
 import 'package:simulator_pogruzki/global_variables/global_variables.dart'
-as globals;
+    as globals;
 
 enum Bort { backBort, leftBort }
 
 enum Gradus { one, two, three, fouth, five }
+
 
 class RazgruzScreen extends StatefulWidget {
   const RazgruzScreen({Key? key}) : super(key: key);
 
   @override
   State<RazgruzScreen> createState() => _RazgruzScreenState();
+
 }
 
 bool? isLeftBort = false;
@@ -19,6 +23,22 @@ Gradus? _Gradus;
 Bort? _Bort;
 
 class _RazgruzScreenState extends State<RazgruzScreen> {
+  @override
+  // void initState() {
+  //   super.initState();
+  //   QuickAlert.show(
+  //       title: "Внимание!",
+  //       text: "Покиньте автомобиль и нажмите на кнопку снизу",
+  //       context: context,
+  //       confirmBtnText: "Я покинул автомобиль",
+  //       type: QuickAlertType.warning,
+  //       onConfirmBtnTap: () {
+  //         globals.isFallDown = true;
+  //         globals.isBegin = true;
+  //         Navigator.pop(context);
+  //       });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,17 +59,18 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                   height: 34,
                 ),
                 SizedBox(
-                    width: 240,
-                    height: 50,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>  WeightScreen()),
-                          );
-                        },
-                        child: const Text('Измерить вес'))),
+                  width: 240,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const WeightScreen()),
+                      );
+                    },
+                    child: const Text('Измерить вес'),
+                  ),
+                ),
                 const SizedBox(
                   height: 26,
                 ),
@@ -59,16 +80,32 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                   child: ElevatedButton(
                       style: globals.weight == null
                           ? ButtonStyle(
-                          backgroundColor:
-                          MaterialStateProperty.all(Colors.grey))
-                          : null,
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.grey))
+                          : globals.weight > 800
+                              ? ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.grey))
+                              : null,
                       onPressed: () {
-                        if (globals.weight != null) {
+                        if (globals.weight != null && globals.weight < 800) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const RazgruzScreen()),
                           );
+                          QuickAlert.show(
+                              title: "Внимание!",
+                              text:
+                                  "Покиньте автомобиль и нажмите на кнопку снизу",
+                              context: context,
+                              confirmBtnText: "Я покинул автомобиль",
+                              type: QuickAlertType.warning,
+                              onConfirmBtnTap: () {
+                                globals.isFallDown = true;
+                                globals.isBegin = true;
+                                Navigator.pop(context);
+                              });
                         }
                       },
                       child: const Text('Разгрузить сырье')),
@@ -277,13 +314,20 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                               width: 240,
                               height: 50,
                               child: ElevatedButton(
+                                style: ButtonStyle(
+                               backgroundColor: globals.isBegin == false
+                                   ? const MaterialStatePropertyAll(Colors.grey)
+                                   : null
+                                ),
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                               WeightScreen()),
-                                    );
+                                    if (globals.isBegin == true) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const WeightScreen()),
+                                      );
+                                    }
                                   },
                                   child: const Text('Начать разгрузку'))),
                           const SizedBox(
@@ -293,13 +337,20 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                             width: 240,
                             height: 50,
                             child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor: globals.isBegin == false
+                                        ? const MaterialStatePropertyAll(Colors.grey)
+                                        : null
+                                ),
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const RazgruzScreen()),
-                                  );
+                                  if (globals.isFallDown == true) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RazgruzScreen()),
+                                    );
+                                  }
                                 },
                                 child: const Text('Опустить платформу')),
                           ),
@@ -313,7 +364,7 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                     child: Image.asset(
                       'assets/images/gruz.png',
                       width: 578,
-                      height: 410,
+                      height: 400,
                     ),
                   ))
                 ],

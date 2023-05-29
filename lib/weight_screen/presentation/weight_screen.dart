@@ -1,16 +1,59 @@
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_libserialport/flutter_libserialport.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simulator_pogruzki/razgruz_screen/presentation/razgruz_screen.dart';
 import 'package:simulator_pogruzki/global_variables/global_variables.dart'
-as globals;
+    as globals;
 
 class WeightScreen extends StatefulWidget {
-  WeightScreen({Key? key}) : super(key: key);
+  const WeightScreen({Key? key}) : super(key: key);
 
   @override
   State<WeightScreen> createState() => _WeightScreenState();
 }
 
-bool isTrue = false;
+Future<int> func() async {
+  late int weight;
+  await globals.reader.stream.read((data) {
+    var decoded = ascii.decode(data).toString();
+    weight = data;
+  });
+  return weight;
+}
+
+showAlertDialog(BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {},
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("My title"),
+    content: Text("This is my message."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+bool? isTrue = null;
+String str = "${{"cmd": "weighten", "args": []}}";
+final List<int> codeUnits = str.codeUnits;
+final Uint8List unit8List = Uint8List.fromList(codeUnits);
+
 class _WeightScreenState extends State<WeightScreen> {
   @override
   Widget build(BuildContext context) {
@@ -50,19 +93,35 @@ class _WeightScreenState extends State<WeightScreen> {
                 SizedBox(
                   width: 240,
                   height: 50,
-                  child:  ElevatedButton(
+                  child: ElevatedButton(
                       style: globals.weight == null
                           ? ButtonStyle(
-                          backgroundColor:
-                          MaterialStateProperty.all(Colors.grey))
-                          : null,
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.grey))
+                          : globals.weight > 800
+                              ? ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.grey))
+                              : null,
                       onPressed: () {
-                        if (globals.weight != null) {
+                        if (globals.weight != null && globals.weight < 800) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const RazgruzScreen()),
                           );
+                          QuickAlert.show(
+                              title: "Внимание!",
+                              text:
+                                  "Покиньте автомобиль и нажмите на кнопку снизу",
+                              context: context,
+                              confirmBtnText: "Я покинул автомобиль",
+                              type: QuickAlertType.warning,
+                              onConfirmBtnTap: () {
+                                globals.isFallDown = true;
+                                globals.isBegin = true;
+                                Navigator.pop(context);
+                              });
                         }
                       },
                       child: const Text('Разгрузить сырье')),
@@ -107,7 +166,7 @@ class _WeightScreenState extends State<WeightScreen> {
                             decoration: BoxDecoration(
                                 color: const Color(0xFF336BD7),
                                 borderRadius: BorderRadius.circular(4)),
-                            child:  Center(
+                            child: const Center(
                                 child: Text(
                               '1000 грамм',
                               style:
@@ -121,8 +180,8 @@ class _WeightScreenState extends State<WeightScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-
-                              globals.weight = 500;
+                              SerialPort(globals.portName).write(unit8List);
+                              globals.weight = 320;
                               if (globals.weight < 1000) {
                                 isTrue = true;
                               } else {
@@ -150,13 +209,19 @@ class _WeightScreenState extends State<WeightScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            '${globals.weight} ',
-                            style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 70,
-                                fontWeight: FontWeight.w800),
-                          ),
+                          globals.weight != null
+                              ? Text(
+                                  '${globals.weight} ',
+                                  style: TextStyle(
+                                      color: globals.weight < 1000
+                                          ? Colors.green
+                                          : Colors.red,
+                                      fontSize: 70,
+                                      fontWeight: FontWeight.w800),
+                                )
+                              : const SizedBox(
+                                  width: 200,
+                                ),
                           const Text(
                             'Грамм',
                             style: TextStyle(color: Colors.white, fontSize: 28),
@@ -174,15 +239,22 @@ class _WeightScreenState extends State<WeightScreen> {
                 const SizedBox(
                   height: 100,
                 ),
-                (isTrue == false)
-                    ? const Text(
-                        'Масса груза замерена, проверка веса не пройдена',
-                        style: TextStyle(fontSize: 30, color: Colors.red),
-                      )
-                    : const Text(
-                        'Масса груза замерена, проверка веса пройдена',
-                        style: TextStyle(fontSize: 30, color: Colors.green),
-                      )
+                (isTrue != null)
+                    ? SizedBox(
+                        child: (isTrue != null)
+                            ? (globals.weight < 800)
+                                ? const Text(
+                                    'Масса груза замерена, проверка веса пройдена',
+                                    style: TextStyle(
+                                        fontSize: 30, color: Colors.green),
+                                  )
+                                : const Text(
+                                    'Масса груза замерена, проверка веса не пройдена',
+                                    style: TextStyle(
+                                        fontSize: 30, color: Colors.red),
+                                  )
+                            : null)
+                    : const SizedBox()
               ],
             ),
           ),
