@@ -1,27 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:desktop_window/desktop_window.dart';
+import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:simulator_pogruzki/main_screen/presentation/main_screen.dart';
 
 class ConnectionScreen extends StatefulWidget {
-  const ConnectionScreen({Key? key}) : super(key: key);
+  ConnectionScreen({Key? key}) : super(key: key);
 
   @override
   State<ConnectionScreen> createState() => _ConnectionScreenState();
+
 }
 
 class _ConnectionScreenState extends State<ConnectionScreen> {
   String _windowSize = 'Unknown';
-
-  @override
+  var availablePorts = [];
   void initState() {
     super.initState();
+    initPorts();
   }
+  void initPorts() {
+    setState(() => availablePorts = SerialPort.availablePorts);
+  }
+  State<ConnectionScreen> createState() => _ConnectionScreenState();
 
   Future testWindowFunctions() async {
     Size size = await DesktopWindow.getWindowSize();
     print(size);
     await DesktopWindow.setWindowSize(const Size(1440, 1024));
-    print(size);
+    print(availablePorts);
   }
 
   @override

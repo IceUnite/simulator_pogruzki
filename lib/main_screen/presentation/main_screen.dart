@@ -31,7 +31,7 @@ class MainScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const WeightScreen()),
+                            MaterialPageRoute(builder: (context) =>  WeightScreen()),
                           );
                         }, child: const Text('Измерить вес'))),
                 const SizedBox(
@@ -66,10 +66,10 @@ class MainScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                SizedBox(height: 101,),
+                SizedBox(height: 50,),
                 Text('Добро пожаловать в систему разгрузки', style: TextStyle(color: Colors.white, fontSize: 40),),
-                SizedBox(height: 73,),
-                Image.asset('assets/images/gruz2.png', width: 752, height: 456,),
+                SizedBox(height: 20,),
+                Image.asset('assets/images/gruz2.png', width: 600, height: 356,),
                 SizedBox(height: 108,),
                 Text('Данное приложение позволяет быстро и удобно произвести разгрузку автомобиля различными способами',style: TextStyle(color: Colors.white, fontSize: 16), ),
                 Text('По работе с программой можно ознакомиться здесь', style: TextStyle(color: Color(0xFF0AA4E9,), fontSize: 16),)

@@ -44,7 +44,7 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const WeightScreen()),
+                                builder: (context) =>  WeightScreen()),
                           );
                         },
                         child: const Text('Измерить вес'))),
@@ -255,14 +255,14 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 100,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 50,
+                          const SizedBox(
+                            height: 20,
                           ),
                           SizedBox(
                               width: 240,
@@ -273,7 +273,7 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const WeightScreen()),
+                                               WeightScreen()),
                                     );
                                   },
                                   child: const Text('Начать разгрузку'))),
@@ -303,8 +303,8 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                     padding: const EdgeInsets.only(top: 100),
                     child: Image.asset(
                       'assets/images/gruz.png',
-                      width: 678,
-                      height: 514,
+                      width: 578,
+                      height: 410,
                     ),
                   ))
                 ],
