@@ -19,7 +19,7 @@ Future<int> func() async {
   late int weight;
   await globals.reader.stream.read((data) {
     var decoded = ascii.decode(data).toString();
-    weight = data;
+    weight = int.parse(decoded);
   });
   return weight;
 }
@@ -92,7 +92,7 @@ class _WeightScreenState extends State<WeightScreen> {
                             onPressed: () {
                               SerialPort(globals.portName).write(unit8List);
                               //TODO убрать строку 162
-                              globals.weight = 320;
+                              globals.weight = func();
                               if (globals.weight < 1000) {
                                 isTrue = true;
                                 QuickAlert.show(
@@ -107,6 +107,7 @@ class _WeightScreenState extends State<WeightScreen> {
                                       globals.isBegin = false;
                                     },
                                     onConfirmBtnTap: () {
+
                                       globals.isFallDown = true;
                                       globals.isBegin = true;
                                       Navigator.pop(context);
