@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:simulator_pogruzki/global_variables/global_variables.dart'
     as globals;
 
@@ -17,7 +21,17 @@ class RazgruzScreen extends StatefulWidget {
 
 bool? isFinish = false;
 
+String str = "${{"cmd": "loadout"}}\n";
+final List<int> codeUnits = str.codeUnits;
+final Uint8List unit8List = Uint8List.fromList(codeUnits);
 
+Future<void> func() async {
+  // late var weight;
+  await globals.reader.stream.read((data) {
+    var decoded = ascii.decode(data).toString();
+    // weight = decoded;
+  });
+}
 
 class _RazgruzScreenState extends State<RazgruzScreen> {
 
@@ -315,6 +329,8 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                                      : null
                                   ),
                                     onPressed: () {
+                                      SerialPort(globals.portName).write(unit8List);
+                                      func();
                                       setState(() {
                                         //TODO запись в буфер и отправка команды на разгрузку
                                         //TODO ожидание ответа об окончани разгрузки

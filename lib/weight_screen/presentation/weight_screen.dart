@@ -6,7 +6,7 @@ import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simulator_pogruzki/razgruz_screen/presentation/razgruz_screen.dart';
 import 'package:simulator_pogruzki/global_variables/global_variables.dart'
-as globals;
+    as globals;
 
 class WeightScreen extends StatefulWidget {
   const WeightScreen({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class WeightScreen extends StatefulWidget {
 
 Future<int> func() async {
   late int weight;
-  await globals.reader.stream.read((data) {
+  await globals.reader.stream.listen((data) {
     var decoded = ascii.decode(data).toString();
     weight = int.parse(decoded);
   });
@@ -26,13 +26,26 @@ Future<int> func() async {
 
 // final VoidCallback setStateOfRazgruzScreen;
 bool? isTrue = null;
-String str = "${{"cmd": "weighten", "args": []}}";
-final List<int> codeUnits = str.codeUnits;
-final Uint8List unit8List = Uint8List.fromList(codeUnits);
+String str = "${{"cmd": "weighten", "args": []}}\n";
+String ok = "${{
+  "cmd": "status",
+  "args": [1]
+}}\n";
+String noOk = "${{
+  "cmd": "status",
+  "args": [0]
+}}\n";
+final List<int> codeUnits1 = str.codeUnits;
+final List<int> codeUnits2 = ok.codeUnits;
+final List<int> codeUnits3 = noOk.codeUnits;
+final Uint8List unit8List1 = Uint8List.fromList(codeUnits1);
+final Uint8List unit8List2 = Uint8List.fromList(codeUnits2);
+final Uint8List unit8List3 = Uint8List.fromList(codeUnits3);
 
 class _WeightScreenState extends State<WeightScreen> {
   @override
   Widget build(BuildContext context) {
+    print(noOk);
     double weight = 18880;
     return Scaffold(
       backgroundColor: const Color(0xFF2C4D8C),
@@ -78,10 +91,10 @@ class _WeightScreenState extends State<WeightScreen> {
                                 borderRadius: BorderRadius.circular(4)),
                             child: const Center(
                                 child: Text(
-                                  '1000 грамм',
-                                  style:
+                              '1000 грамм',
+                              style:
                                   TextStyle(fontSize: 20, color: Colors.white),
-                                ))),
+                            ))),
                         const SizedBox(
                           height: 33,
                         ),
@@ -93,7 +106,9 @@ class _WeightScreenState extends State<WeightScreen> {
                               SerialPort(globals.portName).write(unit8List);
                               //TODO убрать строку 162
                               globals.weight = func();
-                              if (globals.weight < 1000) {
+                              if (globals.weight < 800) {
+                                SerialPort(globals.portName).write(unit8List2);
+
                                 isTrue = true;
                                 QuickAlert.show(
                                     title: "Хотите продолжить?",
@@ -107,22 +122,21 @@ class _WeightScreenState extends State<WeightScreen> {
                                       globals.isBegin = false;
                                     },
                                     onConfirmBtnTap: () {
-
                                       globals.isFallDown = true;
                                       globals.isBegin = true;
                                       Navigator.pop(context);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const RazgruzScreen()),
+                                            builder: (context) =>
+                                                const RazgruzScreen()),
                                       );
                                     });
                               } else {
+                                SerialPort(globals.portName).write(unit8List3);
                                 isTrue = false;
                               }
-                              setState(() {
-                                //TODO добавить запись в буфер
-                              });
+                              setState(() {});
                             },
                             child: const Text(
                               'Измерить вес',
@@ -146,17 +160,17 @@ class _WeightScreenState extends State<WeightScreen> {
                         children: [
                           globals.weight != null
                               ? Text(
-                            '${globals.weight} ',
-                            style: TextStyle(
-                                color: globals.weight < 1000
-                                    ? Colors.green
-                                    : Colors.red,
-                                fontSize: 70,
-                                fontWeight: FontWeight.w800),
-                          )
+                                  '${globals.weight} ',
+                                  style: TextStyle(
+                                      color: globals.weight < 1000
+                                          ? Colors.green
+                                          : Colors.red,
+                                      fontSize: 70,
+                                      fontWeight: FontWeight.w800),
+                                )
                               : const SizedBox(
-                            width: 200,
-                          ),
+                                  width: 200,
+                                ),
                           const Text(
                             'Грамм',
                             style: TextStyle(color: Colors.white, fontSize: 28),
@@ -166,7 +180,7 @@ class _WeightScreenState extends State<WeightScreen> {
                       const Center(
                         child: Text('Фактический вес',
                             style:
-                            TextStyle(color: Colors.white, fontSize: 36)),
+                                TextStyle(color: Colors.white, fontSize: 36)),
                       )
                     ],
                   ),
@@ -176,65 +190,65 @@ class _WeightScreenState extends State<WeightScreen> {
                 ),
                 (isTrue != null)
                     ? SizedBox(
-                    child: (isTrue != null)
-                        ? (globals.weight < 800)
-                        ? const Text(
-                      'Масса груза замерена, проверка веса пройдена',
-                      style: TextStyle(
-                          fontSize: 30, color: Colors.green),
-                    )
-                    // Container(
-                    //   width: 240,
-                    //   height: 70,
-                    //   padding: EdgeInsets.only(top: 20),
-                    //   child: ElevatedButton(
-                    //       style: globals.weight == null
-                    //           ? ButtonStyle(
-                    //               backgroundColor:
-                    //                   MaterialStateProperty
-                    //                       .all(Colors.grey))
-                    //           : globals.weight > 800
-                    //               ? ButtonStyle(
-                    //                   backgroundColor:
-                    //                       MaterialStateProperty
-                    //                           .all(Colors
-                    //                               .grey))
-                    //               : null,
-                    //       onPressed: () {
-                    //         if (globals.weight != null &&
-                    //             globals.weight < 800) {
-                    //           Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //                 builder: (context) =>
-                    //                     const RazgruzScreen()),
-                    //           );
-                    //           QuickAlert.show(
-                    //               title: "Внимание!",
-                    //               text:
-                    //                   "Покиньте автомобиль и нажмите на кнопку снизу",
-                    //               context: context,
-                    //               confirmBtnText:
-                    //                   "Я покинул автомобиль",
-                    //               type:
-                    //                   QuickAlertType.warning,
-                    //               onConfirmBtnTap: () {
-                    //                 globals.isFallDown = true;
-                    //                 globals.isBegin = true;
-                    //                 Navigator.pop(context);
-                    //               });
-                    //         }
-                    //       },
-                    //       child:
-                    //           const Text('Разгрузить сырье')),
-                    // ),
+                        child: (isTrue != null)
+                            ? (globals.weight < 800)
+                                ? const Text(
+                                    'Масса груза замерена, проверка веса пройдена',
+                                    style: TextStyle(
+                                        fontSize: 30, color: Colors.green),
+                                  )
+                                // Container(
+                                //   width: 240,
+                                //   height: 70,
+                                //   padding: EdgeInsets.only(top: 20),
+                                //   child: ElevatedButton(
+                                //       style: globals.weight == null
+                                //           ? ButtonStyle(
+                                //               backgroundColor:
+                                //                   MaterialStateProperty
+                                //                       .all(Colors.grey))
+                                //           : globals.weight > 800
+                                //               ? ButtonStyle(
+                                //                   backgroundColor:
+                                //                       MaterialStateProperty
+                                //                           .all(Colors
+                                //                               .grey))
+                                //               : null,
+                                //       onPressed: () {
+                                //         if (globals.weight != null &&
+                                //             globals.weight < 800) {
+                                //           Navigator.push(
+                                //             context,
+                                //             MaterialPageRoute(
+                                //                 builder: (context) =>
+                                //                     const RazgruzScreen()),
+                                //           );
+                                //           QuickAlert.show(
+                                //               title: "Внимание!",
+                                //               text:
+                                //                   "Покиньте автомобиль и нажмите на кнопку снизу",
+                                //               context: context,
+                                //               confirmBtnText:
+                                //                   "Я покинул автомобиль",
+                                //               type:
+                                //                   QuickAlertType.warning,
+                                //               onConfirmBtnTap: () {
+                                //                 globals.isFallDown = true;
+                                //                 globals.isBegin = true;
+                                //                 Navigator.pop(context);
+                                //               });
+                                //         }
+                                //       },
+                                //       child:
+                                //           const Text('Разгрузить сырье')),
+                                // ),
 
-                        : const Text(
-                      'Масса груза замерена, проверка веса не пройдена',
-                      style: TextStyle(
-                          fontSize: 30, color: Colors.red),
-                    )
-                        : null)
+                                : const Text(
+                                    'Масса груза замерена, проверка веса не пройдена',
+                                    style: TextStyle(
+                                        fontSize: 30, color: Colors.red),
+                                  )
+                            : null)
                     : const SizedBox()
               ],
             ),
