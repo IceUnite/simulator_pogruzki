@@ -18,101 +18,89 @@ class RazgruzScreen extends StatefulWidget {
 
 }
 
-bool? isLeftBort = false;
-Gradus? _Gradus;
-Bort? _Bort;
+bool? isFinish = false;
+// Gradus? _Gradus;
+// Bort? _Bort;
+
 
 class _RazgruzScreenState extends State<RazgruzScreen> {
-  @override
-  // void initState() {
-  //   super.initState();
-  //   QuickAlert.show(
-  //       title: "Внимание!",
-  //       text: "Покиньте автомобиль и нажмите на кнопку снизу",
-  //       context: context,
-  //       confirmBtnText: "Я покинул автомобиль",
-  //       type: QuickAlertType.warning,
-  //       onConfirmBtnTap: () {
-  //         globals.isFallDown = true;
-  //         globals.isBegin = true;
-  //         Navigator.pop(context);
-  //       });
-  // }
 
   @override
+  bool isFinish = false;
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF2C4D8C),
       body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            margin: const EdgeInsets.only(top: 23, bottom: 39, left: 22),
-            width: 300,
-            height: 962,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: const Color(0xFF002863),
-            ),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 34,
-                ),
-                SizedBox(
-                  width: 240,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const WeightScreen()),
-                      );
-                    },
-                    child: const Text('Измерить вес'),
-                  ),
-                ),
-                const SizedBox(
-                  height: 26,
-                ),
-                SizedBox(
-                  width: 240,
-                  height: 50,
-                  child: ElevatedButton(
-                      style: globals.weight == null
-                          ? ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.grey))
-                          : globals.weight > 800
-                              ? ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.grey))
-                              : null,
-                      onPressed: () {
-                        if (globals.weight != null && globals.weight < 800) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const RazgruzScreen()),
-                          );
-                          QuickAlert.show(
-                              title: "Внимание!",
-                              text:
-                                  "Покиньте автомобиль и нажмите на кнопку снизу",
-                              context: context,
-                              confirmBtnText: "Я покинул автомобиль",
-                              type: QuickAlertType.warning,
-                              onConfirmBtnTap: () {
-                                globals.isFallDown = true;
-                                globals.isBegin = true;
-                                Navigator.pop(context);
-                              });
-                        }
-                      },
-                      child: const Text('Разгрузить сырье')),
-                ),
-              ],
-            ),
-          ),
+        //   Container(
+        //     margin: const EdgeInsets.only(top: 23, bottom: 39, left: 22),
+        //     width: 300,
+        //     height: 962,
+        //     decoration: BoxDecoration(
+        //       borderRadius: BorderRadius.circular(8),
+        //       color: const Color(0xFF002863),
+        //     ),
+        //     child: Column(
+        //       children: [
+        //         const SizedBox(
+        //           height: 34,
+        //         ),
+        //         SizedBox(
+        //           width: 240,
+        //           height: 50,
+        //           child: ElevatedButton(
+        //             onPressed: () {
+        //               Navigator.push(
+        //                 context,
+        //                 MaterialPageRoute(builder: (context) => const WeightScreen()),
+        //               );
+        //             },
+        //             child: const Text('Измерить вес'),
+        //           ),
+        //         ),
+        //         const SizedBox(
+        //           height: 26,
+        //         ),
+        //         SizedBox(
+        //           width: 240,
+        //           height: 50,
+        //           child: ElevatedButton(
+        //               style: globals.weight == null
+        //                   ? ButtonStyle(
+        //                       backgroundColor:
+        //                           MaterialStateProperty.all(Colors.grey))
+        //                   : globals.weight > 800
+        //                       ? ButtonStyle(
+        //                           backgroundColor:
+        //                               MaterialStateProperty.all(Colors.grey))
+        //                       : null,
+        //               onPressed: () {
+        //                 if (globals.weight != null && globals.weight < 800) {
+        //                   Navigator.push(
+        //                     context,
+        //                     MaterialPageRoute(
+        //                         builder: (context) => const RazgruzScreen()),
+        //                   );
+        //                   QuickAlert.show(
+        //                       title: "Внимание!",
+        //                       text:
+        //                           "Покиньте автомобиль и нажмите на кнопку снизу",
+        //                       context: context,
+        //                       confirmBtnText: "Я покинул автомобиль",
+        //                       type: QuickAlertType.warning,
+        //                       onConfirmBtnTap: () {
+        //                         globals.isFallDown = true;
+        //                         globals.isBegin = true;
+        //                         Navigator.pop(context);
+        //                       });
+        //                 }
+        //               },
+        //               child: const Text('Разгрузить сырье')),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
           Container(
               margin: const EdgeInsets.only(
                 top: 23,
@@ -136,64 +124,72 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Padding(
-                            padding: EdgeInsets.all(33),
+                            padding: EdgeInsets.only(top: 33, left: 33),
                             child: Text(
-                              'Выберите разгрузочный борт',
+                              'Платформа №1',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 24),
                             ),
                           ),
-                          SizedBox(
-                            width: 500,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                    width: 250,
-                                    height: 21,
-                                    child: RadioListTile(
-                                        activeColor: Colors.white,
-                                        dense: true,
-                                        value: Bort.leftBort,
-                                        groupValue: _Bort,
-                                        title: const Text(
-                                          'Через боковой борт',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _Bort = val;
-                                          });
-                                        })),
-                                SizedBox(
-                                    width: 250,
-                                    height: 21,
-                                    child: RadioListTile(
-                                        activeColor: Colors.white,
-                                        dense: true,
-                                        value: Bort.backBort,
-                                        groupValue: _Bort,
-                                        title: const Text(
-                                          'Через задний борт',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _Bort = val;
-                                          });
-                                        })),
-                              ],
+                          // SizedBox(
+                          //   width: 500,
+                            // child: Row(
+                            //   children: [
+                            //     SizedBox(
+                            //         width: 250,
+                            //         height: 21,
+                            //         child: RadioListTile(
+                            //             activeColor: Colors.white,
+                            //             dense: true,
+                            //             value: Bort.leftBort,
+                            //             groupValue: _Bort,
+                            //             title: const Text(
+                            //               'Через боковой борт',
+                            //               style: TextStyle(
+                            //                   color: Colors.white,
+                            //                   fontSize: 16),
+                            //             ),
+                            //             onChanged: (val) {
+                            //               setState(() {
+                            //                 _Bort = val;
+                            //               });
+                            //             })),
+                            //     SizedBox(
+                            //         width: 250,
+                            //         height: 21,
+                            //         child: RadioListTile(
+                            //             activeColor: Colors.white,
+                            //             dense: true,
+                            //             value: Bort.backBort,
+                            //             groupValue: _Bort,
+                            //             title: const Text(
+                            //               'Через задний борт',
+                            //               style: TextStyle(
+                            //                   color: Colors.white,
+                            //                   fontSize: 16),
+                            //             ),
+                            //             onChanged: (val) {
+                            //               setState(() {
+                            //                 _Bort = val;
+                            //               });
+                            //             })),
+                            //   ],
+                            // ),
+                          // ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 33, top: 33),
+                            child: Text(
+                              'Описание выгрузки:',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 24),
                             ),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(left: 33, top: 33),
                             child: Text(
-                              'Выберите угол наклона самосвала',
+                              'Тип выгрузки: через задний борт \nУгол наклона: 40°',
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 24),
+                              TextStyle(color: Colors.white, fontSize: 24),
                             ),
                           ),
                           Padding(
@@ -201,101 +197,101 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SizedBox(
-                                    width: 120,
-                                    height: 21,
-                                    child: RadioListTile(
-                                        activeColor: Colors.white,
-                                        dense: true,
-                                        value: Gradus.one,
-                                        groupValue: _Gradus,
-                                        title: const Text(
-                                          '14°',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _Gradus = val;
-                                          });
-                                        })),
-                                SizedBox(
-                                    width: 120,
-                                    height: 21,
-                                    child: RadioListTile(
-                                        activeColor: Colors.white,
-                                        dense: true,
-                                        value: Gradus.two,
-                                        groupValue: _Gradus,
-                                        title: const Text(
-                                          '20°',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _Gradus = val;
-                                          });
-                                        })),
-                                SizedBox(
-                                    width: 120,
-                                    height: 21,
-                                    child: RadioListTile(
-                                        activeColor: Colors.white,
-                                        dense: true,
-                                        value: Gradus.three,
-                                        groupValue: _Gradus,
-                                        title: const Text(
-                                          '26°',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _Gradus = val;
-                                          });
-                                        })),
-                                SizedBox(
-                                    width: 120,
-                                    height: 21,
-                                    child: RadioListTile(
-                                        activeColor: Colors.white,
-                                        dense: true,
-                                        value: Gradus.fouth,
-                                        groupValue: _Gradus,
-                                        title: const Text(
-                                          '32°',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _Gradus = val;
-                                          });
-                                        })),
-                                SizedBox(
-                                    width: 120,
-                                    height: 21,
-                                    child: RadioListTile(
-                                        activeColor: Colors.white,
-                                        dense: true,
-                                        value: Gradus.five,
-                                        groupValue: _Gradus,
-                                        title: const Text(
-                                          '38°',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _Gradus = val;
-                                          });
-                                        })),
+                                // SizedBox(
+                                //     width: 120,
+                                //     height: 21,
+                                //     child: RadioListTile(
+                                //         activeColor: Colors.white,
+                                //         dense: true,
+                                //         value: Gradus.one,
+                                //         groupValue: _Gradus,
+                                //         title: const Text(
+                                //           '14°',
+                                //           style: TextStyle(
+                                //               color: Colors.white,
+                                //               fontSize: 16),
+                                //         ),
+                                //         onChanged: (val) {
+                                //           setState(() {
+                                //             _Gradus = val;
+                                //           });
+                                //         })),
+                                // SizedBox(
+                                //     width: 120,
+                                //     height: 21,
+                                //     child: RadioListTile(
+                                //         activeColor: Colors.white,
+                                //         dense: true,
+                                //         value: Gradus.two,
+                                //         groupValue: _Gradus,
+                                //         title: const Text(
+                                //           '20°',
+                                //           style: TextStyle(
+                                //               color: Colors.white,
+                                //               fontSize: 16),
+                                //         ),
+                                //         onChanged: (val) {
+                                //           setState(() {
+                                //             _Gradus = val;
+                                //           });
+                                //         })),
+                                // SizedBox(
+                                //     width: 120,
+                                //     height: 21,
+                                //     child: RadioListTile(
+                                //         activeColor: Colors.white,
+                                //         dense: true,
+                                //         value: Gradus.three,
+                                //         groupValue: _Gradus,
+                                //         title: const Text(
+                                //           '26°',
+                                //           style: TextStyle(
+                                //               color: Colors.white,
+                                //               fontSize: 16),
+                                //         ),
+                                //         onChanged: (val) {
+                                //           setState(() {
+                                //             _Gradus = val;
+                                //           });
+                                //         })),
+                                // SizedBox(
+                                //     width: 120,
+                                //     height: 21,
+                                //     child: RadioListTile(
+                                //         activeColor: Colors.white,
+                                //         dense: true,
+                                //         value: Gradus.fouth,
+                                //         groupValue: _Gradus,
+                                //         title: const Text(
+                                //           '32°',
+                                //           style: TextStyle(
+                                //               color: Colors.white,
+                                //               fontSize: 16),
+                                //         ),
+                                //         onChanged: (val) {
+                                //           setState(() {
+                                //             _Gradus = val;
+                                //           });
+                                //         })),
+                                // SizedBox(
+                                //     width: 120,
+                                //     height: 21,
+                                //     child: RadioListTile(
+                                //         activeColor: Colors.white,
+                                //         dense: true,
+                                //         value: Gradus.five,
+                                //         groupValue: _Gradus,
+                                //         title: const Text(
+                                //           '38°',
+                                //           style: TextStyle(
+                                //               color: Colors.white,
+                                //               fontSize: 16),
+                                //         ),
+                                //         onChanged: (val) {
+                                //           setState(() {
+                                //             _Gradus = val;
+                                //           });
+                                //         })),
                               ],
                             ),
                           )
@@ -305,55 +301,51 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                         width: 100,
                       ),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           const SizedBox(
                             height: 20,
                           ),
-                          SizedBox(
+                          isFinish == false
+                              ? Padding(
+                            padding: const EdgeInsets.only(left: 200, bottom: 30),
+                            child: SizedBox(
+                                width: 240,
+                                height: 50,
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                 backgroundColor: globals.isBegin == false
+                                     ? const MaterialStatePropertyAll(Colors.grey)
+                                     : null
+                                  ),
+                                    onPressed: () {
+                                      isFinish = true;
+                                      setState(() {
+
+                                      });
+                                    },
+                                    child: const Text('Начать разгрузку'))),
+                          )
+                         : Padding(
+                           padding: const EdgeInsets.only(left:200, bottom: 30),
+                           child: SizedBox(
                               width: 240,
                               height: 50,
                               child: ElevatedButton(
-                                style: ButtonStyle(
-                               backgroundColor: globals.isBegin == false
-                                   ? const MaterialStatePropertyAll(Colors.grey)
-                                   : null
-                                ),
+                                  style: ButtonStyle(
+                                      backgroundColor: globals.isBegin == false
+                                          ? const MaterialStatePropertyAll(Colors.grey)
+                                          : null
+                                  ),
                                   onPressed: () {
-                                    if (globals.isBegin == true) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const WeightScreen()),
-                                      );
-                                    }
+                                    isFinish = false;
+                                    setState(() {
+
+                                    });
                                   },
-                                  child: const Text('Начать разгрузку'))),
-                          const SizedBox(
-                            height: 26,
-                          ),
-                          SizedBox(
-                            width: 240,
-                            height: 50,
-                            child: ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor: globals.isBegin == false
-                                        ? const MaterialStatePropertyAll(Colors.grey)
-                                        : null
-                                ),
-                                onPressed: () {
-                                  if (globals.isFallDown == true) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const RazgruzScreen()),
-                                    );
-                                  }
-                                },
-                                child: const Text('Опустить платформу')),
-                          ),
+                                  child: const Text('Опустить платформу')),
+                            ),
+                         ),
                         ],
                       )
                     ],
@@ -364,7 +356,7 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                     child: Image.asset(
                       'assets/images/gruz.png',
                       width: 578,
-                      height: 400,
+                      height: 350,
                     ),
                   ))
                 ],
