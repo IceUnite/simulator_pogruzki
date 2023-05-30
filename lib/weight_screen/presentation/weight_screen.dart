@@ -39,73 +39,6 @@ class _WeightScreenState extends State<WeightScreen> {
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Container(
-          //   margin: const EdgeInsets.only(top: 23, bottom: 39, left: 22),
-          //   width: 300,
-          //   height: 962,
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(8),
-          //     color: const Color(0xFF002863),
-          //   ),
-          //   child: Column(
-          //     children: [
-          //       const SizedBox(
-          //         height: 34,
-          //       ),
-          //       SizedBox(
-          //           width: 240,
-          //           height: 50,
-          //           child: ElevatedButton(
-          //               onPressed: () {
-          //                 Navigator.push(
-          //                   context,
-          //                   MaterialPageRoute(
-          //                       builder: (context) => WeightScreen()),
-          //                 );
-          //               },
-          //               child: const Text('Измерить вес'))),
-          //       const SizedBox(
-          //         height: 26,
-          //       ),
-          //       SizedBox(
-          //         width: 240,
-          //         height: 50,
-          //         child: ElevatedButton(
-          //             style: globals.weight == null
-          //                 ? ButtonStyle(
-          //                     backgroundColor:
-          //                         MaterialStateProperty.all(Colors.grey))
-          //                 : globals.weight > 800
-          //                     ? ButtonStyle(
-          //                         backgroundColor:
-          //                             MaterialStateProperty.all(Colors.grey))
-          //                     : null,
-          //             onPressed: () {
-          //               if (globals.weight != null && globals.weight < 800) {
-          //                 Navigator.push(
-          //                   context,
-          //                   MaterialPageRoute(
-          //                       builder: (context) => const RazgruzScreen()),
-          //                 );
-          //                 QuickAlert.show(
-          //                     title: "Внимание!",
-          //                     text:
-          //                         "Покиньте автомобиль и нажмите на кнопку снизу",
-          //                     context: context,
-          //                     confirmBtnText: "Я покинул автомобиль",
-          //                     type: QuickAlertType.warning,
-          //                     onConfirmBtnTap: () {
-          //                       globals.isFallDown = true;
-          //                       globals.isBegin = true;
-          //                       Navigator.pop(context);
-          //                     });
-          //               }
-          //             },
-          //             child: const Text('Разгрузить сырье')),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Container(
             margin: const EdgeInsets.only(
               top: 23,
@@ -186,7 +119,9 @@ class _WeightScreenState extends State<WeightScreen> {
                               } else {
                                 isTrue = false;
                               }
-                              setState(() {});
+                              setState(() {
+                                //TODO добавить запись в буфер
+                              });
                             },
                             child: const Text(
                               'Измерить вес',

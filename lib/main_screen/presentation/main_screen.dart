@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:simulator_pogruzki/razgruz_screen/presentation/razgruz_screen.dart';
 import 'package:simulator_pogruzki/weight_screen/presentation/weight_screen.dart';
 import 'package:simulator_pogruzki/global_variables/global_variables.dart'
     as globals;

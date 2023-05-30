@@ -15,14 +15,13 @@ class ConnectionScreen extends StatefulWidget {
 }
 
 class _ConnectionScreenState extends State<ConnectionScreen> {
-  String _windowSize = 'Unknown';
   var availablePorts = [];
 
   @override
   void initState() {
     super.initState();
     initPorts();
-    print(globals.ports);
+    // print(globals.ports);
   }
 
   void initPorts() {
@@ -55,11 +54,11 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
             ),
           ),
           const Expanded(child: SizedBox()),
-          Text(
+          const Text(
             "Выберете порт для подключения",
             style: TextStyle(color: Colors.white, fontSize: 40),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
@@ -76,7 +75,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
                       onPressed: () {
                         globals.portName = globals.ports![index];
                         if (!SerialPort(globals.portName).openReadWrite()) {
-                          print(SerialPort.lastError);
+                          // print(SerialPort.lastError);
                         }
                         globals.reader = SerialPortReader(SerialPort(globals.portName));
                         Navigator.push(

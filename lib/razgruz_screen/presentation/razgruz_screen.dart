@@ -319,9 +319,10 @@ class _RazgruzScreenState extends State<RazgruzScreen> {
                                      : null
                                   ),
                                     onPressed: () {
-                                      isFinish = true;
                                       setState(() {
-
+                                        //TODO запись в буфер и отправка команды на разгрузку
+                                        //TODO ожидание ответа об окончани разгрузки
+                                        isFinish = true;
                                       });
                                     },
                                     child: const Text('Начать разгрузку'))),
