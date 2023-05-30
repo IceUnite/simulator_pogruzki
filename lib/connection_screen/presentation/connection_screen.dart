@@ -35,7 +35,7 @@ class _ConnectionScreenState extends State<ConnectionScreen> {
 
   Future testWindowFunctions() async {
     Size size = await DesktopWindow.getWindowSize();
-    await DesktopWindow.setWindowSize(const Size(1440, 1024));
+    await DesktopWindow.setWindowSize(const Size(1124, 1024));
   }
 
   @override
